@@ -1,0 +1,168 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docweave"
+version = "0.1.0"
+description = "Local-first, confidence-guided document conversion engine with structural fidelity and honest diagnostics."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "DocWeave contributors" }]
+keywords = ["document", "conversion", "markdown", "pdf", "extraction", "rag", "ocr"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Markup",
+]
+
+# Base install stays small and offline-capable: no ML, no OCR, no model downloads.
+dependencies = [
+    "pydantic>=2.6,<3",
+    "click>=8.1",
+    "rich>=13.0",
+    "beautifulsoup4>=4.12",
+    "defusedxml>=0.7",
+]
+
+[project.optional-dependencies]
+pdf = ["pymupdf>=1.23"]
+office = ["python-docx>=1.1", "python-pptx>=0.6.23", "openpyxl>=3.1"]
+xls = ["xlrd>=2.0"]
+# Diagram understanding. Pure CPU, no models, no downloads.
+diagrams = ["opencv-python>=4.8", "numpy>=1.21"]
+# OCR is strictly opt-in and never imported on the default path.
+# indra-ocr is preferred: more accurate and far faster than Tesseract, and it
+# returns layout blocks with labels rather than a flat list of lines. Its model
+# weights carry a separate licence -- read docs/dependencies.md before shipping
+# this to anyone.
+ocr = ["indra-ocr>=0.3", "pytesseract>=0.3.10"]
+# Audio transcription (local Whisper via faster-whisper or openai-whisper)
+audio = ["faster-whisper>=1.0"]
+# Archive handling
+archive = ["patoolib>=1.12"]
+# Web content fetching
+web = ["feedparser>=6.0", "wikipedia-api>=0.6", "requests>=2.31"]
+# YouTube transcript
+youtube = ["yt-dlp>=2024.1"]
+# Outlook MSG
+msg = ["msg-extractor>=0.3"]
+# Jupyter Notebook
+notebook = ["nbformat>=5.9", "nbconvert>=7.16"]
+# EPUB
+epub = ["ebooklib>=0.18"]
+api = ["fastapi>=0.110", "uvicorn>=0.27", "python-multipart>=0.0.9"]
+dev = [
+    "pytest>=7.4",
+    "pytest-asyncio>=0.23",
+    "pytest-timeout>=2.2",
+    # Property-based invariants. Generate inputs nobody thought to write a
+    # fixture for and assert only promises the engine makes regardless of
+    # content. See tests/property/.
+    "hypothesis>=6.100",
+    # Lint and type checks are enforced in CI. mypy runs against a recorded
+    # baseline (tools/mypy-baseline.txt) so it fails on new findings only.
+    "ruff>=0.5",
+    "mypy>=1.10",
+]
+bench = [
+    "markitdown>=0.1",
+    "rapidfuzz>=3.0",
+]
+all = [
+    "pymupdf>=1.23",
+    "python-docx>=1.1",
+    "python-pptx>=0.6.23",
+    "openpyxl>=3.1",
+    "xlrd>=2.0",
+    "opencv-python>=4.8",
+    "numpy>=1.21",
+    "faster-whisper>=1.0",
+    "patoolib>=1.12",
+    "feedparser>=6.0",
+    "wikipedia-api>=0.6",
+    "yt-dlp>=2024.1",
+    "msg-extractor>=0.3",
+    "nbformat>=5.9",
+    "nbconvert>=7.16",
+    "ebooklib>=0.18",
+    # The comparison baseline includes MarkItDown, so `all` has to be able to
+    # reproduce every published number.
+    "markitdown>=0.1",
+]
+
+[project.scripts]
+docweave = "docweave.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/docweave/docweave"
+Issues = "https://github.com/docweave/docweave/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+docweave = ["py.typed"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra --strict-markers"
+markers = [
+    "ocr: requires the optional OCR dependency",
+    "slow: long running test",
+    "network: requires network access (deselected by default)",
+]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+source = ["docweave"]
+
+[tool.ruff]
+line-length = 200
+target-version = "py310"
+# Build artefacts are copies of the source; linting them reports stale
+# duplicates of issues that are already fixed in the real files.
+extend-exclude = ["build", "dist", ".venv", ".hypothesis"]
+
+[tool.ruff.lint]
+# Deliberately not "everything". The default selection reported 374 issues,
+# almost all of them line length, which trains people to ignore the output.
+# These are the rules that catch defects rather than taste.
+select = ["E", "F", "W", "B", "I", "UP"]
+ignore = [
+    "E501",    # line length is not a defect; several rules here are long by nature
+    "E741",    # `l` for a line is idiomatic in the geometry code
+    "B905",    # zip(strict=) is opt-in here: some call sites are deliberately ragged
+    "UP007",   # Optional[X] is left explicit: pydantic evaluates these at runtime
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Test and benchmark modules deliberately import after adjusting sys.path.
+"tests/conftest.py" = ["E402"]
+"benchmarks/*.py" = ["E402"]
+# Property tests are generated; naming a parameter twice is not a defect there.
+"tests/property/*" = ["B011", "F811"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["docweave"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_configs = true
+warn_redundant_casts = true
+# Strict enough to catch the real defects, not so strict that the codebase
+# cannot be typed without ceremony.
+check_untyped_defs = true
+disallow_untyped_defs = false
+files = ["src/docweave"]

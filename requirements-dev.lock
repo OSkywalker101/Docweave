@@ -1,0 +1,46 @@
+# Known-good versions, recorded so CI and local runs agree.
+#
+# This is NOT a lockfile: the pyproject ranges stay permissive for library
+# consumers, and this file is what the project's own automation installs. A
+# dependency releasing a breaking change should be an explicit decision here
+# rather than a surprise red build on someone else's PR.
+#
+# Regenerate with:
+#     python -m pip freeze > requirements-dev.lock
+# then review the diff. A large jump in this file is a change worth reading.
+
+# -- runtime, base ----------------------------------------------------------
+beautifulsoup4==4.14.3
+defusedxml==0.7.1
+click==8.5.0
+
+# -- format adapters -------------------------------------------------------
+pymupdf==1.28.2
+python-docx==1.2.0
+python-pptx==1.0.2
+openpyxl==3.1.5
+
+# -- diagram engine --------------------------------------------------------
+# numpy 2.x with opencv 4.11: the pair that the contour and Hough code was
+# developed and measured against. numpy 1.x also works but was not what the
+# published diagram numbers were produced on.
+numpy==2.2.6
+opencv-python==4.11.0.86
+
+# -- OCR -------------------------------------------------------------------
+# indra-ocr pulls onnxruntime, opencv and pypdfium2; it is the page engine.
+# pytesseract stays as the diagram-label reader -- see docs/architecture.md for
+# the measurement that decided that, because it is the opposite of the obvious
+# choice.
+indra-ocr==0.3.2
+pytesseract==0.3.13
+
+# -- benchmark -------------------------------------------------------------
+markitdown==0.1.6
+rapidfuzz==3.14.3
+
+# -- development and CI ----------------------------------------------------
+pytest==7.4.4
+hypothesis==6.168.5
+ruff==0.17.1
+mypy==2.4.0

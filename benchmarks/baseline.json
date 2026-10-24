@@ -1,0 +1,438 @@
+{
+  "document_accuracy": {
+    "docweave": {
+      "documents": 22,
+      "table_documents": 12,
+      "cer": 0.2107,
+      "word_recall": 0.9432,
+      "word_precision": 0.8433,
+      "word_f1": 0.8656,
+      "reading_order": 0.8206,
+      "table_cell_recall": 1.0,
+      "table_cell_precision": 1.0,
+      "container_coverage": 0.9,
+      "by_format": {
+        "csv": {
+          "documents": 2,
+          "word_recall": 1.0,
+          "word_f1": 1.0,
+          "cer": 0.0
+        },
+        "docx": {
+          "documents": 5,
+          "word_recall": 0.95,
+          "word_f1": 0.955,
+          "cer": 0.1162
+        },
+        "html": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 0.9744,
+          "cer": 0.1688
+        },
+        "json": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 0.8571,
+          "cer": 0.2
+        },
+        "markdown": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 0.96,
+          "cer": 0.032
+        },
+        "pdf": {
+          "documents": 5,
+          "word_recall": 0.8,
+          "word_f1": 0.6,
+          "cer": 0.4165
+        },
+        "pptx": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 1.0,
+          "cer": 0.3138
+        },
+        "text": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 1.0,
+          "cer": 0.0
+        },
+        "xlsx": {
+          "documents": 4,
+          "word_recall": 1.0,
+          "word_f1": 0.8694,
+          "cer": 0.3143
+        },
+        "xml": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 1.0,
+          "cer": 0.0
+        }
+      }
+    },
+    "markitdown": {
+      "documents": 22,
+      "table_documents": 12,
+      "cer": 0.749,
+      "word_recall": 0.9126,
+      "word_precision": 0.8004,
+      "word_f1": 0.831,
+      "reading_order": 0.5892,
+      "table_cell_recall": 0.9381,
+      "table_cell_precision": 0.8582,
+      "container_coverage": 0.0,
+      "by_format": {
+        "csv": {
+          "documents": 2,
+          "word_recall": 0.9584,
+          "word_f1": 0.9783,
+          "cer": 0.0435
+        },
+        "docx": {
+          "documents": 5,
+          "word_recall": 0.95,
+          "word_f1": 0.9074,
+          "cer": 0.1858
+        },
+        "html": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 0.95,
+          "cer": 0.1558
+        },
+        "json": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 0.7826,
+          "cer": 0.4
+        },
+        "markdown": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 0.96,
+          "cer": 0.032
+        },
+        "pdf": {
+          "documents": 5,
+          "word_recall": 0.8,
+          "word_f1": 0.8,
+          "cer": 0.2054
+        },
+        "pptx": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 0.9831,
+          "cer": 0.3298
+        },
+        "text": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 1.0,
+          "cer": 0.0
+        },
+        "xlsx": {
+          "documents": 4,
+          "word_recall": 0.8525,
+          "word_f1": 0.528,
+          "cer": 3.3793
+        },
+        "xml": {
+          "documents": 1,
+          "word_recall": 1.0,
+          "word_f1": 1.0,
+          "cer": 0.0
+        }
+      }
+    }
+  },
+  "diagram_accuracy": {
+    "diagrams": 11,
+    "node_recall": 1.0,
+    "edge_recall": 0.8788,
+    "node_precision": 1.0,
+    "edge_precision": 1.0,
+    "direction_proof_rate": 0.787,
+    "kind_accuracy": 1.0,
+    "per_diagram": [
+      {
+        "name": "ambiguous",
+        "expected_kind": "unknown",
+        "detected_kind": "unknown",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 3,
+          "detected": 3,
+          "matched": 3
+        },
+        "edges": {
+          "expected": 1,
+          "detected": 0,
+          "matched": 0
+        },
+        "node_recall": 1.0,
+        "edge_recall": 0.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 0,
+        "direction_inferred": 0,
+        "direction_proof_rate": 1.0,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "architecture",
+        "expected_kind": "architecture",
+        "detected_kind": "architecture",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 6,
+          "detected": 6,
+          "matched": 6
+        },
+        "edges": {
+          "expected": 5,
+          "detected": 5,
+          "matched": 5
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 4,
+        "direction_inferred": 1,
+        "direction_proof_rate": 0.8,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "box_and_arrow",
+        "expected_kind": "box_and_arrow",
+        "detected_kind": "box_and_arrow",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 3,
+          "detected": 3,
+          "matched": 3
+        },
+        "edges": {
+          "expected": 2,
+          "detected": 2,
+          "matched": 2
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 2,
+        "direction_inferred": 0,
+        "direction_proof_rate": 1.0,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "er",
+        "expected_kind": "er",
+        "detected_kind": "er",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 4,
+          "detected": 4,
+          "matched": 4
+        },
+        "edges": {
+          "expected": 3,
+          "detected": 3,
+          "matched": 3
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 0,
+        "direction_inferred": 3,
+        "direction_proof_rate": 0.0,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "flowchart",
+        "expected_kind": "flowchart",
+        "detected_kind": "flowchart",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 7,
+          "detected": 7,
+          "matched": 7
+        },
+        "edges": {
+          "expected": 7,
+          "detected": 7,
+          "matched": 7
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 6,
+        "direction_inferred": 1,
+        "direction_proof_rate": 0.8571,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "grouped_subsystem",
+        "expected_kind": "architecture",
+        "detected_kind": "architecture",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 5,
+          "detected": 5,
+          "matched": 5
+        },
+        "edges": {
+          "expected": 3,
+          "detected": 3,
+          "matched": 3
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 3,
+        "direction_inferred": 0,
+        "direction_proof_rate": 1.0,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "network_topology",
+        "expected_kind": "architecture",
+        "detected_kind": "architecture",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 6,
+          "detected": 6,
+          "matched": 6
+        },
+        "edges": {
+          "expected": 5,
+          "detected": 5,
+          "matched": 5
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 4,
+        "direction_inferred": 0,
+        "direction_proof_rate": 1.0,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "parallelogram",
+        "expected_kind": "flowchart",
+        "detected_kind": "flowchart",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 2,
+          "detected": 2,
+          "matched": 2
+        },
+        "edges": {
+          "expected": 1,
+          "detected": 1,
+          "matched": 1
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 1,
+        "direction_inferred": 0,
+        "direction_proof_rate": 1.0,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "sequence",
+        "expected_kind": "sequence",
+        "detected_kind": "sequence",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 3,
+          "detected": 3,
+          "matched": 3
+        },
+        "edges": {
+          "expected": 3,
+          "detected": 2,
+          "matched": 2
+        },
+        "node_recall": 1.0,
+        "edge_recall": 0.6667,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 1,
+        "direction_inferred": 1,
+        "direction_proof_rate": 0.5,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "state_machine",
+        "expected_kind": "box_and_arrow",
+        "detected_kind": "box_and_arrow",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 4,
+          "detected": 4,
+          "matched": 4
+        },
+        "edges": {
+          "expected": 4,
+          "detected": 4,
+          "matched": 4
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 4,
+        "direction_inferred": 0,
+        "direction_proof_rate": 1.0,
+        "unassigned_shapes": 0,
+        "degraded": true
+      },
+      {
+        "name": "uml_class",
+        "expected_kind": "uml_class",
+        "detected_kind": "uml_class",
+        "kind_correct": true,
+        "nodes": {
+          "expected": 3,
+          "detected": 3,
+          "matched": 3
+        },
+        "edges": {
+          "expected": 2,
+          "detected": 2,
+          "matched": 2
+        },
+        "node_recall": 1.0,
+        "edge_recall": 1.0,
+        "node_precision": 1.0,
+        "edge_precision": 1.0,
+        "directed_edges": 1,
+        "direction_inferred": 1,
+        "direction_proof_rate": 0.5,
+        "unassigned_shapes": 0,
+        "degraded": true
+      }
+    ]
+  }
+}

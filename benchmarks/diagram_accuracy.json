@@ -1,0 +1,286 @@
+{
+  "diagrams": 11,
+  "node_recall": 0.9818,
+  "edge_recall": 0.7924,
+  "node_precision": 0.9818,
+  "edge_precision": 0.9273,
+  "direction_proof_rate": 0.787,
+  "kind_accuracy": 0.8182,
+  "per_diagram": [
+    {
+      "name": "ambiguous",
+      "expected_kind": "unknown",
+      "detected_kind": "unknown",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 3,
+        "detected": 3,
+        "matched": 3
+      },
+      "edges": {
+        "expected": 1,
+        "detected": 0,
+        "matched": 0
+      },
+      "node_recall": 1.0,
+      "edge_recall": 0.0,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 0,
+      "direction_inferred": 0,
+      "direction_proof_rate": 1.0,
+      "unassigned_shapes": 0,
+      "degraded": true
+    },
+    {
+      "name": "architecture",
+      "expected_kind": "architecture",
+      "detected_kind": "architecture",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 6,
+        "detected": 6,
+        "matched": 6
+      },
+      "edges": {
+        "expected": 5,
+        "detected": 5,
+        "matched": 5
+      },
+      "node_recall": 1.0,
+      "edge_recall": 1.0,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 4,
+      "direction_inferred": 1,
+      "direction_proof_rate": 0.8,
+      "unassigned_shapes": 0,
+      "degraded": false
+    },
+    {
+      "name": "box_and_arrow",
+      "expected_kind": "box_and_arrow",
+      "detected_kind": "box_and_arrow",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 3,
+        "detected": 3,
+        "matched": 3
+      },
+      "edges": {
+        "expected": 2,
+        "detected": 2,
+        "matched": 2
+      },
+      "node_recall": 1.0,
+      "edge_recall": 1.0,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 2,
+      "direction_inferred": 0,
+      "direction_proof_rate": 1.0,
+      "unassigned_shapes": 0,
+      "degraded": false
+    },
+    {
+      "name": "er",
+      "expected_kind": "er",
+      "detected_kind": "er",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 4,
+        "detected": 4,
+        "matched": 4
+      },
+      "edges": {
+        "expected": 3,
+        "detected": 3,
+        "matched": 3
+      },
+      "node_recall": 1.0,
+      "edge_recall": 1.0,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 0,
+      "direction_inferred": 3,
+      "direction_proof_rate": 0.0,
+      "unassigned_shapes": 0,
+      "degraded": false
+    },
+    {
+      "name": "flowchart",
+      "expected_kind": "flowchart",
+      "detected_kind": "flowchart",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 7,
+        "detected": 7,
+        "matched": 7
+      },
+      "edges": {
+        "expected": 7,
+        "detected": 7,
+        "matched": 7
+      },
+      "node_recall": 1.0,
+      "edge_recall": 1.0,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 6,
+      "direction_inferred": 1,
+      "direction_proof_rate": 0.8571,
+      "unassigned_shapes": 0,
+      "degraded": false
+    },
+    {
+      "name": "grouped_subsystem",
+      "expected_kind": "architecture",
+      "detected_kind": "sequence",
+      "kind_correct": false,
+      "nodes": {
+        "expected": 5,
+        "detected": 4,
+        "matched": 4
+      },
+      "edges": {
+        "expected": 3,
+        "detected": 3,
+        "matched": 3
+      },
+      "node_recall": 0.8,
+      "edge_recall": 1.0,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 3,
+      "direction_inferred": 0,
+      "direction_proof_rate": 1.0,
+      "unassigned_shapes": 0,
+      "degraded": false
+    },
+    {
+      "name": "network_topology",
+      "expected_kind": "architecture",
+      "detected_kind": "architecture",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 6,
+        "detected": 6,
+        "matched": 6
+      },
+      "edges": {
+        "expected": 5,
+        "detected": 4,
+        "matched": 4
+      },
+      "node_recall": 1.0,
+      "edge_recall": 0.8,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 4,
+      "direction_inferred": 0,
+      "direction_proof_rate": 1.0,
+      "unassigned_shapes": 0,
+      "degraded": false
+    },
+    {
+      "name": "parallelogram",
+      "expected_kind": "flowchart",
+      "detected_kind": "flowchart",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 2,
+        "detected": 2,
+        "matched": 2
+      },
+      "edges": {
+        "expected": 1,
+        "detected": 1,
+        "matched": 1
+      },
+      "node_recall": 1.0,
+      "edge_recall": 1.0,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 1,
+      "direction_inferred": 0,
+      "direction_proof_rate": 1.0,
+      "unassigned_shapes": 0,
+      "degraded": false
+    },
+    {
+      "name": "sequence",
+      "expected_kind": "sequence",
+      "detected_kind": "sequence",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 3,
+        "detected": 3,
+        "matched": 3
+      },
+      "edges": {
+        "expected": 3,
+        "detected": 2,
+        "matched": 2
+      },
+      "node_recall": 1.0,
+      "edge_recall": 0.6667,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 1,
+      "direction_inferred": 1,
+      "direction_proof_rate": 0.5,
+      "unassigned_shapes": 0,
+      "degraded": true
+    },
+    {
+      "name": "state_machine",
+      "expected_kind": "flowchart",
+      "detected_kind": "architecture",
+      "kind_correct": false,
+      "nodes": {
+        "expected": 4,
+        "detected": 5,
+        "matched": 4
+      },
+      "edges": {
+        "expected": 4,
+        "detected": 5,
+        "matched": 1
+      },
+      "node_recall": 1.0,
+      "edge_recall": 0.25,
+      "node_precision": 0.8,
+      "edge_precision": 0.2,
+      "directed_edges": 5,
+      "direction_inferred": 0,
+      "direction_proof_rate": 1.0,
+      "unassigned_shapes": 0,
+      "degraded": false
+    },
+    {
+      "name": "uml_class",
+      "expected_kind": "uml_class",
+      "detected_kind": "uml_class",
+      "kind_correct": true,
+      "nodes": {
+        "expected": 3,
+        "detected": 3,
+        "matched": 3
+      },
+      "edges": {
+        "expected": 2,
+        "detected": 2,
+        "matched": 2
+      },
+      "node_recall": 1.0,
+      "edge_recall": 1.0,
+      "node_precision": 1.0,
+      "edge_precision": 1.0,
+      "directed_edges": 1,
+      "direction_inferred": 1,
+      "direction_proof_rate": 0.5,
+      "unassigned_shapes": 0,
+      "degraded": false
+    }
+  ]
+}

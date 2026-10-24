@@ -1,0 +1,99 @@
+name: Release
+
+# Tag-driven so a release is always an explicit human action. Nothing here
+# runs on a pull request, and nothing pushes without a version tag.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build and verify without publishing"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify the release candidate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      # Pinned, so a release is never the first run against a new dependency.
+      - name: Install from the recorded lockfile
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.lock
+          pip install -e '.[dev,all]'
+      - name: Test
+        run: python -m pytest tests -q
+      - name: Lint
+        run: ruff check .
+      - name: Types
+        run: python tools/check_types.py
+      - name: Build and check the metadata
+        run: |
+          python -m pip install --upgrade build twine
+          python -m build
+          python -m twine check dist/*
+      - name: Smoke test the built wheel in a clean environment
+        run: |
+          python -m venv /tmp/smoke
+          /tmp/smoke/bin/pip install dist/*.whl
+          /tmp/smoke/bin/docweave --version
+          /tmp/smoke/bin/docweave capabilities > /dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Publish to PyPI
+    needs: verify
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    environment: pypi
+    permissions:
+      id-token: write   # trusted publishing: no long-lived token in the repo
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    name: GitHub release
+    needs: verify
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+          body: |
+            ## Licence note
+
+            The `ocr` extra installs **indra-ocr**, whose *model weights* are
+            under a modified OpenRAIL-M licence: free for research, personal
+            use, and organisations under $20M revenue or funding, and **not
+            usable competitively with Datalab's API**. The code is Apache-2.0
+            and DocWeave itself is MIT, but redistributing a build that ships
+            those weights inherits their terms.
+
+            Tesseract is supported as an alternative with no model licence
+            question. See `docs/dependencies.md`.

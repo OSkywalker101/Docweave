@@ -1,0 +1,154 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core:
+    name: Core (minimal install)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - name: Install base package only
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+      - name: Test
+        # Only text-family formats are available without optional extras; the
+        # rest of the suite skips cleanly, which is itself the contract.
+        run: python -m pytest tests -q
+
+  full:
+    name: Full (${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - name: Install with all extras
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.lock
+          pip install -e '.[dev,all]'
+      - name: Test
+        run: python -m pytest tests -q
+      - name: Lint (ruff)
+        # Replaces a bare pyflakes run. Ruff's rule set is configured in
+        # pyproject.toml and deliberately excludes line length, which was
+        # 449 of the default findings and trained everyone to ignore the output.
+        run: ruff check .
+      - name: Types (mypy, no new findings)
+        # Fails on type errors that are not already recorded in
+        # tools/mypy-baseline.txt. Suppressing whole modules would also hide a
+        # real mistake in a line nobody was looking at.
+        run: python tools/check_types.py
+
+  metrics:
+    name: Published metrics must not regress
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: |
+          pip install -r requirements-dev.lock
+          pip install -e '.[dev,all]'
+      # Both harnesses write machine-readable reports. Every number in the
+      # README comes from these two scripts, and until now nothing ran them
+      # automatically -- a benchmark only checked by hand is one nobody checks.
+      - name: Diagram accuracy
+        run: python tests/diagram_accuracy.py benchmarks/reports/diagram_accuracy.json
+      - name: DocWeave vs MarkItDown
+        run: >
+          python benchmarks/compare_markitdown.py
+          --corpus tests/fixtures --runs 1
+          --output benchmarks/reports/markitdown_comparison.json
+      - name: Compare against the recorded baseline
+        run: >
+          python tools/check_metrics.py
+          --report benchmarks/reports/markitdown_comparison.json
+          --diagram benchmarks/reports/diagram_accuracy.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: metric-reports
+          path: benchmarks/reports/
+
+  determinism:
+    name: Determinism and self-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: |
+          pip install -r requirements-dev.lock
+          pip install -e '.[dev,all]'
+      - name: Regenerate fixtures and convert twice, byte for byte
+        run: |
+          python tests/fixtures_builder.py
+          python - <<'PY'
+          import sys
+          from docweave import convert
+          for name in ("simple.pdf", "sample.docx", "sample.xlsx",
+                       "sample.pptx", "sample.html", "sample.md", "sample.csv"):
+              path = f"tests/fixtures/{name}"
+              a = convert(path)
+              b = convert(path)
+              assert a.to_markdown() == b.to_markdown(), f"markdown drift: {name}"
+              assert a.to_json() == b.to_json(), f"json drift: {name}"
+              assert a.to_jsonl() == b.to_jsonl(), f"jsonl drift: {name}"
+          print("determinism verified across all supported formats")
+          PY
+      - name: CLI smoke test
+        run: |
+          docweave capabilities > /dev/null
+          docweave convert tests/fixtures/simple.pdf -o /tmp/out.md
+          docweave inspect tests/fixtures/sample.xlsx --json > /dev/null
+          docweave validate tests/fixtures --recursive --json > /dev/null || true
+
+  packaging:
+    name: Package builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          python -m pip install --upgrade pip build
+          python -m build
+          pip install dist/*.whl
+          docweave --version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
