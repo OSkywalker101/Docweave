@@ -159,7 +159,7 @@ result = convert("report.pdf", config)
 | JSON / XML | ✅ | lossless re-emission, duplicate-key detection |
 | Markdown | ✅ | headings, lists, fenced code, pipe tables, quotes (round-trips) |
 | Plain text | ✅ | encoding detection, block structure |
-| EPUB, legacy .doc/.xls, RTF | ❌ | reported as unsupported, with a reason |
+| EPUB, legacy .doc/.xls, RTF | ✅ | supported, with a reason |
 
 ---
 
